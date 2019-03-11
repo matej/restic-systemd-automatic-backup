@@ -22,8 +22,8 @@ RETENTION_MONTHS=18
 RETENTION_YEARS=3
 
 # What to backup, and what to not
-BACKUP_PATHS="/ /boot /home /mnt/media"
-BACKUP_EXCLUDES="--exclude-file /.backup_exclude --exclude-file /mnt/media/.backup_exclude --exclude-file /home/erikw/.backup_exclude"
+BACKUP_PATHS="/"
+BACKUP_EXCLUDES="--exclude={/dev,/media,/mnt,/proc,/run,/sys,/tmp,/var/tmp}"
 BACKUP_CACHE="--cache-dir /home/restic/.cache/restic"
 BACKUP_TAG=systemd.timer
 
@@ -50,7 +50,6 @@ wait $!
 # --tag lets us reference these backups later when doing restic-forget.
 restic backup \
 	--verbose \
-	--one-file-system \
 	--tag $BACKUP_TAG \
 	--option b2.connections=$B2_CONNECTIONS \
 	$BACKUP_CACHE \
