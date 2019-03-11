@@ -24,6 +24,7 @@ RETENTION_YEARS=3
 # What to backup, and what to not
 BACKUP_PATHS="/ /boot /home /mnt/media"
 BACKUP_EXCLUDES="--exclude-file /.backup_exclude --exclude-file /mnt/media/.backup_exclude --exclude-file /home/erikw/.backup_exclude"
+BACKUP_CACHE="--cache-dir /home/restic/.cache/restic"
 BACKUP_TAG=systemd.timer
 
 
@@ -52,6 +53,7 @@ restic backup \
 	--one-file-system \
 	--tag $BACKUP_TAG \
 	--option b2.connections=$B2_CONNECTIONS \
+	$BACKUP_CACHE \
 	$BACKUP_EXCLUDES \
 	$BACKUP_PATHS &
 wait $!
@@ -62,6 +64,7 @@ wait $!
 restic forget \
 	--verbose \
 	--tag $BACKUP_TAG \
+	$BACKUP_CACHE \
 	--group-by "paths,tags" \
 	--keep-daily $RETENTION_DAYS \
 	--keep-weekly $RETENTION_WEEKS \
@@ -72,6 +75,7 @@ wait $!
 # Remove old data not linked anymore.
 # See restic-prune(1) or http://restic.readthedocs.io/en/latest/060_forget.html
 restic prune \
+	$BACKUP_CACHE \
 	--option b2.connections=$B2_CONNECTIONS \
 	--verbose &
 wait $!
