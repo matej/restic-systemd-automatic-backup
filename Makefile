@@ -1,5 +1,5 @@
 # Not file targets.
-.PHONY: help install install-scripts install-conf install-exclude install-systemd
+.PHONY: help install install-scripts install-conf install-systemd
 
 ### Macros ###
 SRCS_SCRIPTS	= $(filter-out %cron_mail, $(wildcard usr/local/sbin/*))
