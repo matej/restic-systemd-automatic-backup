@@ -23,7 +23,7 @@ RETENTION_YEARS=3
 
 # What to backup, and what to not
 BACKUP_PATHS="/"
-BACKUP_EXCLUDES="--exclude={/dev,/media,/mnt,/proc,/run,/sys,/tmp,/var/tmp}"
+BACKUP_EXCLUDES="--exclude={/dev,/media,/mnt,/proc,/run,/sys,/tmp,/var/tmp,/home/restic/.cache/restic}"
 BACKUP_CACHE="--cache-dir /home/restic/.cache/restic"
 BACKUP_TAG=systemd.timer
 
