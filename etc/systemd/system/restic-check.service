@@ -8,4 +8,4 @@ User=restic
 Group=restic
 Type=simple
 Nice=10
-ExecStart=/usr/local/sbin/restic_check.sh
+ExecStart=/home/restic/bin/restic_check.sh

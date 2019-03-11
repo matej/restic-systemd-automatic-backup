@@ -2,14 +2,14 @@
 .PHONY: help install install-scripts install-conf install-systemd
 
 ### Macros ###
-SRCS_SCRIPTS	= $(filter-out %cron_mail, $(wildcard usr/local/sbin/*))
-SRCS_CONF	= $(wildcard etc/restic/*)
+SRCS_SCRIPTS	= $(filter-out %cron_mail, $(wildcard home/restic/bin*))
+SRCS_CONF	= $(wildcard home/restic/.config*)
 SRCS_SYSTEMD	= $(wildcard etc/systemd/system/*)
 
 # Just set PREFIX in envionment, like
 # $ PREFIX=/tmp/test make
-DEST_SCRIPTS	= $(PREFIX)/usr/local/sbin
-DEST_CONF	= $(PREFIX)/etc/restic
+DEST_SCRIPTS	= $(PREFIX)/home/restic/bin
+DEST_CONF	= $(PREFIX)/home/restic/.config
 DEST_SYSTEMD	= $(PREFIX)/etc/systemd/system
 
 
@@ -28,14 +28,14 @@ install: install-scripts install-conf install-systemd
 # target: install-scripts - Install executables.
 install-scripts:
 	install -d $(DEST_SCRIPTS)
-	install -m 744 $(SRCS_SCRIPTS) $(DEST_SCRIPTS)
+	install -m 744 -o restic -g restic $(SRCS_SCRIPTS) $(DEST_SCRIPTS)
 
 # target: install-conf - Install restic configuration files.
 install-conf:
-	install -d $(DEST_CONF) -m 700
+	install -d $(DEST_CONF) -m 700  -o restic -g restic
 	install $(SRCS_CONF) $(DEST_CONF)
 
 # target: install-systemd - Install systemd timer and service files
 install-systemd:
 	install -d $(DEST_SYSTEMD)
-	install -m 0644 $(SRCS_SYSTEMD) $(DEST_SYSTEMD)
+	install -m 0644  -o restic -g restic $(SRCS_SYSTEMD) $(DEST_SYSTEMD)

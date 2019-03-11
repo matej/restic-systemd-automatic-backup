@@ -5,7 +5,7 @@
 Description=Send status email for %i to user
 
 [Service]
+User=restic
+Group=systemd-journal
 Type=oneshot
 ExecStart=/usr/local/sbin/systemd-email abc@gmail.com %i
-User=root
-Group=systemd-journal

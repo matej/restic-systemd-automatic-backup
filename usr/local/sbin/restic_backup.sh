@@ -23,14 +23,14 @@ RETENTION_YEARS=3
 
 # What to backup, and what to not
 BACKUP_PATHS="/"
-BACKUP_EXCLUDES="--exclude={/dev,/media,/mnt,/proc,/run,/sys,/tmp,/var/tmp,/home/restic/.cache/restic}"
+BACKUP_EXCLUDES="--exclude /dev --exclude /media --exclude /mnt --exclude /proc --exclude /run --exclude /sys --exclude /tmp --exclude /var/tmp --exclude /home/restic/.cache/restic"
 BACKUP_CACHE="--cache-dir /home/restic/.cache/restic"
 BACKUP_TAG=systemd.timer
 
 
 # Set all environment variables like
 # B2_ACCOUNT_ID, B2_ACCOUNT_KEY, RESTIC_REPOSITORY etc.
-source /etc/restic/b2_env.sh
+source /home/restic/.config/restic/b2_env.sh
 
 # How many network connections to set up to B2. Default is 5.
 B2_CONNECTIONS=10
@@ -41,14 +41,14 @@ B2_CONNECTIONS=10
 # Reference: https://unix.stackexchange.com/questions/146756/forward-sigterm-to-child-in-bash
 
 # Remove locks from other stale processes to keep the automated backup running.
-restic unlock &
+/home/restic/bin/restic $BACKUP_CACHE unlock &
 wait $!
 
 # Do the backup!
 # See restic-backup(1) or http://restic.readthedocs.io/en/latest/040_backup.html
 # --one-file-system makes sure we only backup exactly those mounted file systems specified in $BACKUP_PATHS, and thus not directories like /dev, /sys etc.
 # --tag lets us reference these backups later when doing restic-forget.
-restic backup \
+/home/restic/bin/restic backup \
 	--verbose \
 	--tag $BACKUP_TAG \
 	--option b2.connections=$B2_CONNECTIONS \
@@ -60,7 +60,7 @@ wait $!
 # Dereference old backups.
 # See restic-forget(1) or http://restic.readthedocs.io/en/latest/060_forget.html
 # --group-by only the tag and path, and not by hostname. This is because I create a B2 Bucket per host, and if this hostname accidentially change some time, there would now be multiple backup sets.
-restic forget \
+/home/restic/bin/restic forget \
 	--verbose \
 	--tag $BACKUP_TAG \
 	$BACKUP_CACHE \
@@ -73,7 +73,7 @@ wait $!
 
 # Remove old data not linked anymore.
 # See restic-prune(1) or http://restic.readthedocs.io/en/latest/060_forget.html
-restic prune \
+/home/restic/bin/restic prune \
 	$BACKUP_CACHE \
 	--option b2.connections=$B2_CONNECTIONS \
 	--verbose &

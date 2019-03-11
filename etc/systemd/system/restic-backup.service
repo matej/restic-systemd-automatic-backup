@@ -7,6 +7,6 @@ User=restic
 Group=restic
 Type=simple
 Nice=10
-ExecStart=/usr/local/sbin/restic_backup.sh
+ExecStart=/home/restic/bin/restic_backup.sh
 # $HOME or $XDG_CACHE_HOME must be set for restic to find /root/.cache/restic/
-Environment="HOME=/root"
+Environment="HOME=/home/restic"

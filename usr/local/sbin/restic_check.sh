@@ -16,7 +16,7 @@ exit_hook() {
 trap exit_hook INT TERM
 
 
-source /etc/restic/b2_env.sh
+source /home/restic/.config/restic/b2_env.sh
 
 # How many network connections to set up to B2. Default is 5.
 B2_CONNECTIONS=10
@@ -29,7 +29,7 @@ BACKUP_CACHE="--cache-dir /home/restic/.cache/restic"
 #wait $!
 
 # Check repository for errors.
-restic check \
+/home/restic/bin/restic check \
 	$BACKUP_CACHE \
 	--option b2.connections=$B2_CONNECTIONS \
 	--verbose &
