@@ -2,7 +2,7 @@
 Description=Check restic backup Backblaze B2 for errors on a schedule
 
 [Timer]
-OnCalendar=monthly
+OnCalendar=*-*-01 03:15:00 CET
 Persistent=true
 
 [Install]
