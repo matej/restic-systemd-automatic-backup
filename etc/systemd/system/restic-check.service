@@ -4,6 +4,8 @@ OnFailure=status-email-user@%n.service
 Conflicts=restic.service
 
 [Service]
+User=restic
+Group=restic
 Type=simple
 Nice=10
 ExecStart=/usr/local/sbin/restic_check.sh
