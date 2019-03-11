@@ -33,7 +33,7 @@ BACKUP_TAG=systemd.timer
 source /etc/restic/b2_env.sh
 
 # How many network connections to set up to B2. Default is 5.
-B2_CONNECTIONS=50
+B2_CONNECTIONS=10
 
 # NOTE start all commands in background and wait for them to finish.
 # Reason: bash ignores any signals while child process is executing and thus my trap exit hook is not triggered.
